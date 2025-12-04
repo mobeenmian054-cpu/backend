@@ -9,10 +9,16 @@ const app = express();
 // Middleware
 app.use(express.json());
 
-// ✅ CORS setup: allow only your frontend
+// ✅ CORS setup
 app.use(cors({
-  origin: 'https://frountend-seven.vercel.app', // <- your deployed frontend
-  credentials: true // if you use cookies/auth headers
+  origin: 'https://frountend-seven.vercel.app',
+  credentials: true
+}));
+
+// ✅ Handle preflight requests
+app.options('*', cors({
+  origin: 'https://frountend-seven.vercel.app',
+  credentials: true
 }));
 
 // MongoDB Connection
@@ -25,5 +31,5 @@ app.use("/api/auth", authRoutes);
 app.use("/api/bookings", bookingRoutes);
 
 // Start Server
-const PORT = process.env.PORT || 5000; // ✅ use env PORT for deployment
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
